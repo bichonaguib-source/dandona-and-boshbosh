@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>عالمنا الخاص</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans">
+
+  <!-- Lock Screen -->
+  <div id="lockScreen" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-white/10 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl">
+      <div class="w-16 h-16 bg-rose-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+        <i class="fa-solid fa-lock text-2xl text-white"></i>
+      </div>
+      <h2 class="text-2xl font-bold mb-2">عالمنا الخاص مغلق</h2>
+      <p class="text-slate-400 text-sm mb-6">أدخل رمز الدخول السرّي</p>
+      <input type="password" id="passInput" placeholder="رمز الدخول..." class="w-full p-4 bg-slate-800 border border-white/10 rounded-2xl text-center text-xl mb-4 outline-none focus:border-rose-500">
+      <p id="errorMsg" class="text-rose-500 text-xs mb-4 hidden">رمز الدخول غير صحيح!</p>
+      <button onclick="checkPass()" class="w-full bg-rose-600 py-4 rounded-2xl font-bold hover:bg-rose-500 transition">دخول ❤️</button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div id="mainContent" class="hidden max-w-5xl mx-auto px-6 py-8">
+    <header class="text-center mb-12">
+      <h1 class="text-4xl font-extrabold text-rose-500 mb-2">عالمنا الخاص ✨</h1>
+      <p class="text-slate-400">اللحظات التي لا تُنسى، محفوظة للأبد.</p>
+    </header>
+
+    <div id="memoriesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = "https://nikonyjbnfixjbdfqtoh.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_P00vj9dsjGRXXnzE63ukmg_fmcszvhj";
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const PASSCODE = "1234"; // غير الباسورد هنا لو تحب
+
+    function checkPass() {
+      const val = document.getElementById('passInput').value;
+      if (val === PASSCODE) {
+        document.getElementById('lockScreen').classList.add('hidden');
+        document.getElementById('mainContent').classList.remove('hidden');
+        loadMemories();
+      } else {
+        document.getElementById('errorMsg').classList.remove('hidden');
+      }
+    }
+
+    async function loadMemories() {
+      const { data, error } = await _supabase.from('memories').select('*').order('date', { ascending: false });
+      if (data) {
+        const container = document.getElementById('memoriesGrid');
+        container.innerHTML = data.map(m => `
+          <div class="bg-slate-900 border border-white/10 p-5 rounded-3xl">
+            <img src="${m.image_url}" class="w-full h-64 object-cover rounded-2xl mb-4">
+            <span class="text-xs text-rose-400 font-bold">${m.date}</span>
+            <h3 class="text-xl font-bold mt-1">${m.title}</h3>
+            <p class="text-slate-400 text-sm mt-2">${m.description || ''}</p>
+          </div>
+        `).join('');
+      }
+    }
+  </script>
+</body>
+</html>
