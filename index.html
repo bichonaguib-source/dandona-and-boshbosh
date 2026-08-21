@@ -12,38 +12,72 @@
   <!-- Lock Screen -->
   <div id="lockScreen" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-white/10 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl">
-      <div class="w-16 h-16 bg-rose-600 rounded-2xl flex items-center justify-center mx-auto mb-6 flex items-center justify-center">
+      <div class="w-16 h-16 bg-rose-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
         <i class="fa-solid fa-heart text-2xl text-white"></i>
       </div>
       <h2 class="text-2xl font-bold mb-2">عالمنا الخاص مغلق</h2>
       <p class="text-slate-400 text-sm mb-6">أدخل رمز الدخول السرّي</p>
-      <input type="password" id="passInput" placeholder="رمز الدخول..." class="w-full p-4 bg-slate-800 border border-white/10 rounded-2xl text-center text-xl mb-4 outline-none focus:border-rose-500">
+      <input type="password" id="passInput" placeholder="رمز الدخول..." class="w-full p-4 bg-slate-800 border border-white/10 rounded-2xl text-center text-xl mb-4 outline-none focus:border-rose-500 text-white">
       <p id="errorMsg" class="text-rose-500 text-xs mb-4 hidden">رمز الدخول غير صحيح!</p>
       <button onclick="checkPass()" class="w-full bg-rose-600 py-4 rounded-2xl font-bold hover:bg-rose-500 transition">دخول ❤️</button>
     </div>
   </div>
 
   <!-- Main Content -->
-  <div id="mainContent" class="hidden max-w-5xl mx-auto px-6 py-8">
-    <header class="text-center mb-10">
+  <div id="mainContent" class="hidden max-w-4xl mx-auto px-4 py-8">
+    <header class="text-center mb-8">
       <h1 class="text-4xl font-extrabold text-rose-500 mb-2">عالمنا الخاص ✨</h1>
-      <p class="text-slate-400">اللحظات التي لا تُنسى، محفوظة للأبد.</p>
+      <p class="text-slate-400">اللحظات والنوتس الخاصة بينا، محفوظة للأبد.</p>
     </header>
 
-    <!-- Form to Add New Memory -->
-    <div class="bg-slate-900 border border-white/10 p-6 rounded-3xl mb-12 max-w-xl mx-auto shadow-xl">
-      <h3 class="text-lg font-bold mb-4 text-center text-rose-400"><i class="fa-solid fa-plus-circle ml-2"></i>إضافة ذكرى جديدة</h3>
-      <div class="space-y-3">
-        <input type="text" id="mTitle" placeholder="عنوان الذكرى..." class="w-full p-3 bg-slate-800 border border-white/10 rounded-xl outline-none focus:border-rose-500 text-white">
-        <input type="date" id="mDate" class="w-full p-3 bg-slate-800 border border-white/10 rounded-xl outline-none focus:border-rose-500 text-white">
-        <input type="text" id="mImage" placeholder="رابط الصورة (URL)..." class="w-full p-3 bg-slate-800 border border-white/10 rounded-xl outline-none focus:border-rose-500 text-white">
-        <textarea id="mDesc" placeholder="تفاصيل الذكرى..." class="w-full p-3 bg-slate-800 border border-white/10 rounded-xl outline-none focus:border-rose-500 h-24 text-white"></textarea>
-        <button onclick="addMemory()" class="w-full bg-rose-600 py-3 rounded-xl font-bold hover:bg-rose-500 transition">حفظ الذكرى 📌</button>
-      </div>
+    <!-- Tabs Navigation -->
+    <div class="flex justify-center gap-4 mb-8">
+      <button id="tabMemoriesBtn" onclick="switchTab('memories')" class="px-6 py-3 rounded-2xl font-bold bg-rose-600 text-white transition flex items-center gap-2">
+        <i class="fa-solid fa-image"></i> الذكريات والصور
+      </button>
+      <button id="tabNotesBtn" onclick="switchTab('notes')" class="px-6 py-3 rounded-2xl font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-2">
+        <i class="fa-solid fa-note-sticky"></i> النوتس والرسائل
+      </button>
     </div>
 
-    <!-- Memories Grid -->
-    <div id="memoriesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+    <!-- TAB 1: MEMORIES SECTION -->
+    <div id="memoriesTabSection">
+      <!-- Form to Add New Memory -->
+      <div class="bg-slate-900 border border-white/10 p-6 rounded-3xl mb-8 shadow-xl">
+        <h3 class="text-lg font-bold mb-4 text-rose-400 flex items-center gap-2">
+          <i class="fa-solid fa-plus-circle"></i> إضافة ذكرى وصورة جديدة
+        </h3>
+        <div class="space-y-3">
+          <input type="text" id="mTitle" placeholder="عنوان الذكرى..." class="w-full p-3 bg-slate-800 border border-white/10 rounded-xl outline-none focus:border-rose-500 text-white">
+          <input type="date" id="mDate" class="w-full p-3 bg-slate-800 border border-white/10 rounded-xl outline-none focus:border-rose-500 text-white">
+          <input type="text" id="mImage" placeholder="رابط الصورة (URL)..." class="w-full p-3 bg-slate-800 border border-white/10 rounded-xl outline-none focus:border-rose-500 text-white">
+          <textarea id="mDesc" placeholder="اكتب تفاصيل أو حكاية الذكرى..." class="w-full p-3 bg-slate-800 border border-white/10 rounded-xl outline-none focus:border-rose-500 h-20 text-white"></textarea>
+          <button onclick="addMemory()" class="w-full bg-rose-600 py-3 rounded-xl font-bold hover:bg-rose-500 transition">إضافة الذكرى 📸</button>
+        </div>
+      </div>
+
+      <!-- Memories Grid -->
+      <div id="memoriesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+    </div>
+
+    <!-- TAB 2: NOTES SECTION -->
+    <div id="notesTabSection" class="hidden">
+      <!-- Form to Add New Note -->
+      <div class="bg-slate-900 border border-white/10 p-6 rounded-3xl mb-8 shadow-xl">
+        <h3 class="text-lg font-bold mb-4 text-rose-400 flex items-center gap-2">
+          <i class="fa-solid fa-pen-to-square"></i> اكتب نوت / رسالة جديدة
+        </h3>
+        <div class="space-y-3">
+          <input type="text" id="nTitle" placeholder="عنوان النوت أو المناسبة..." class="w-full p-3 bg-slate-800 border border-white/10 rounded-xl outline-none focus:border-rose-500 text-white">
+          <textarea id="nContent" placeholder="اكتب كلامك هنا..." class="w-full p-3 bg-slate-800 border border-white/10 rounded-xl outline-none focus:border-rose-500 h-28 text-white"></textarea>
+          <button onclick="addNote()" class="w-full bg-rose-600 py-3 rounded-xl font-bold hover:bg-rose-500 transition">حفظ النوت 📝</button>
+        </div>
+      </div>
+
+      <!-- Notes Grid -->
+      <div id="notesGrid" class="space-y-4"></div>
+    </div>
+
   </div>
 
   <script>
@@ -51,76 +85,127 @@
     const SUPABASE_KEY = "sb_publishable_P00vj9dsjGRXXnzE63ukmg_fmcszvhj";
     const PASSCODE = "1234";
 
+    let memoriesList = JSON.parse(localStorage.getItem('my_memories') || '[]');
+    let notesList = JSON.parse(localStorage.getItem('my_notes') || '[]');
+
     function checkPass() {
       const val = document.getElementById('passInput').value;
       if (val === PASSCODE) {
         document.getElementById('lockScreen').classList.add('hidden');
         document.getElementById('mainContent').classList.remove('hidden');
-        loadMemories();
+        renderMemories();
+        renderNotes();
       } else {
         document.getElementById('errorMsg').classList.remove('hidden');
       }
     }
 
-    async function loadMemories() {
-      const container = document.getElementById('memoriesGrid');
-      try {
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/memories?select=*&order=date.desc`, {
-          headers: {
-            'apikey': SUPABASE_KEY,
-            'Authorization': `Bearer ${SUPABASE_KEY}`
-          }
-        });
-        const data = await res.json();
-        
-        if (Array.isArray(data) && data.length > 0) {
-          container.innerHTML = data.map(m => `
-            <div class="bg-slate-900 border border-white/10 p-5 rounded-3xl shadow-lg">
-              ${m.image_url ? `<img src="${m.image_url}" class="w-full h-64 object-cover rounded-2xl mb-4">` : ''}
-              <span class="text-xs text-rose-400 font-bold">${m.date || ''}</span>
-              <h3 class="text-xl font-bold mt-1">${m.title || ''}</h3>
-              <p class="text-slate-400 text-sm mt-2">${m.description || ''}</p>
-            </div>
-          `).join('');
-        } else {
-          container.innerHTML = '<p class="text-center text-slate-500 col-span-2">لا يوجد ذكريات مضافة حتى الآن. أضف أول ذكرى من الفورم فوق! ❤️</p>';
-        }
-      } catch (err) {
-        container.innerHTML = '<p class="text-center text-slate-500 col-span-2">أضف أول ذكرى من الفورم فوق! ❤️</p>';
+    function switchTab(tab) {
+      const memSec = document.getElementById('memoriesTabSection');
+      const noteSec = document.getElementById('notesTabSection');
+      const memBtn = document.getElementById('tabMemoriesBtn');
+      const noteBtn = document.getElementById('tabNotesBtn');
+
+      if (tab === 'memories') {
+        memSec.classList.remove('hidden');
+        noteSec.classList.add('hidden');
+        memBtn.className = "px-6 py-3 rounded-2xl font-bold bg-rose-600 text-white transition flex items-center gap-2";
+        noteBtn.className = "px-6 py-3 rounded-2xl font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-2";
+      } else {
+        memSec.classList.add('hidden');
+        noteSec.classList.remove('hidden');
+        noteBtn.className = "px-6 py-3 rounded-2xl font-bold bg-rose-600 text-white transition flex items-center gap-2";
+        memBtn.className = "px-6 py-3 rounded-2xl font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-2";
       }
     }
 
-    async function addMemory() {
-      const title = document.getElementById('mTitle').value;
+    function renderMemories() {
+      const container = document.getElementById('memoriesGrid');
+      if (memoriesList.length === 0) {
+        container.innerHTML = '<p class="text-center text-slate-500 col-span-2 py-8">مفيش ذكريات مضافة لسه.. أضف أول صورة وذكرى فوق! ❤️</p>';
+        return;
+      }
+      container.innerHTML = memoriesList.map((m, idx) => `
+        <div class="bg-slate-900 border border-white/10 p-5 rounded-3xl shadow-lg relative">
+          ${m.image ? `<img src="${m.image}" class="w-full h-56 object-cover rounded-2xl mb-4">` : ''}
+          <div class="flex justify-between items-center mb-1">
+            <h3 class="text-xl font-bold text-white">${m.title}</h3>
+            <span class="text-xs text-rose-400 font-bold">${m.date || ''}</span>
+          </div>
+          <p class="text-slate-300 text-sm mt-2 whitespace-pre-line">${m.desc || ''}</p>
+          <button onclick="deleteMemory(${idx})" class="mt-4 text-xs text-rose-500 hover:underline"><i class="fa-solid fa-trash"></i> مسح</button>
+        </div>
+      `).join('');
+    }
+
+    function addMemory() {
+      const title = document.getElementById('mTitle').value.trim();
       const date = document.getElementById('mDate').value;
-      const image_url = document.getElementById('mImage').value;
-      const description = document.getElementById('mDesc').value;
+      const image = document.getElementById('mImage').value.trim();
+      const desc = document.getElementById('mDesc').value.trim();
 
       if (!title) return alert('يرجى كتابة عنوان الذكرى!');
 
-      try {
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/memories`, {
-          method: 'POST',
-          headers: {
-            'apikey': SUPABASE_KEY,
-            'Authorization': `Bearer ${SUPABASE_KEY}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=minimal'
-          },
-          body: JSON.stringify({ title, date, image_url, description })
-        });
+      memoriesList.unshift({ title, date, image, desc });
+      localStorage.setItem('my_memories', JSON.stringify(memoriesList));
+      
+      document.getElementById('mTitle').value = '';
+      document.getElementById('mDate').value = '';
+      document.getElementById('mImage').value = '';
+      document.getElementById('mDesc').value = '';
 
-        if (res.ok) {
-          alert('تمت إضافة الذكرى بنجاح! ✨');
-          document.getElementById('mTitle').value = '';
-          document.getElementById('mImage').value = '';
-          document.getElementById('mDesc').value = '';
-          loadMemories();
-        } else {
-          alert('تأكد من إعدادات الجدول في Supabase');
-        }
-      } catch (e) {
-        alert('حدث خطأ أثناء الحفظ');
+      renderMemories();
+      alert('تمت إضافة الذكرى بنجاح! ✨');
+    }
+
+    function deleteMemory(idx) {
+      if (confirm('تأكد أنك تريد مسح هذه الذكرى؟')) {
+        memoriesList.splice(idx, 1);
+        localStorage.setItem('my_memories', JSON.stringify(memoriesList));
+        renderMemories();
+      }
+    }
+
+    function renderNotes() {
+      const container = document.getElementById('notesGrid');
+      if (notesList.length === 0) {
+        container.innerHTML = '<p class="text-center text-slate-500 py-8">مفيش نوتس مضافة لسه.. اكتب أول نوت فوق! 📝</p>';
+        return;
+      }
+      container.innerHTML = notesList.map((n, idx) => `
+        <div class="bg-slate-900 border border-white/10 p-5 rounded-3xl shadow-lg">
+          <div class="flex justify-between items-center mb-2">
+            <h4 class="text-lg font-bold text-rose-400">${n.title}</h4>
+            <span class="text-xs text-slate-500">${n.time}</span>
+          </div>
+          <p class="text-slate-200 text-sm whitespace-pre-line">${n.content}</p>
+          <button onclick="deleteNote(${idx})" class="mt-3 text-xs text-rose-500 hover:underline"><i class="fa-solid fa-trash"></i> مسح</button>
+        </div>
+      `).join('');
+    }
+
+    function addNote() {
+      const title = document.getElementById('nTitle').value.trim();
+      const content = document.getElementById('nContent').value.trim();
+
+      if (!title || !content) return alert('يرجى كتابة العنوان والمحتوى!');
+
+      const time = new Date().toLocaleDateString('ar-EG');
+      notesList.unshift({ title, content, time });
+      localStorage.setItem('my_notes', JSON.stringify(notesList));
+
+      document.getElementById('nTitle').value = '';
+      document.getElementById('nContent').value = '';
+
+      renderNotes();
+      alert('تم حفظ النوت بنجاح! 📝');
+    }
+
+    function deleteNote(idx) {
+      if (confirm('هل تريد مسح هذه النوت؟')) {
+        notesList.splice(idx, 1);
+        localStorage.setItem('my_notes', JSON.stringify(notesList));
+        renderNotes();
       }
     }
   </script>
